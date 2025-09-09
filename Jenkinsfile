@@ -35,11 +35,15 @@ pipeline {
         }
 
         stage('Run App') {
-            steps {
-                dir('frontend') {
-                    bat "start /B npm start -- --port=%PORT%"
-                }
-            }
+             steps {
+                   dir('frontend') {
+                   bat '''
+                   npm install -g serve
+                   serve -s build -l 5040
+                  '''
         }
+    }
+}
+
     }
 }
