@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        git 'Default'   // ⬅️ must match the Git installation name in Jenkins Global Tool Config
+    }
+
     environment {
         // __define-ocg__: Project-specific settings
         PROJECT_NAME = "DevOps-Project-1"
@@ -11,6 +15,12 @@ pipeline {
         stage('Clone Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/prafulk30/DevOps-Project-1.git'
+            }
+        }
+
+        stage('Verify Git') {
+            steps {
+                sh 'git --version'   // confirm Jenkins can use Git properly
             }
         }
 
