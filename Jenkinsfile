@@ -1,14 +1,28 @@
 pipeline {
     agent any
 
-    environment {
-        PORT = 5040
-    }
-
     stages {
+        stage('Checkout SCM') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Declarative: Tool Install') {
+            steps {
+                // Add any tool installations here if needed
+            }
+        }
+
         stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/prafulk30/DevOps-Project-1.git'
+                git url: 'https://github.com/prafulk30/DevOps-Project-1.git', branch: 'main'
+            }
+        }
+
+        stage('Verify Git') {
+            steps {
+                bat 'git --version'
             }
         }
 
@@ -33,7 +47,7 @@ pipeline {
                 dir('frontend') {
                     bat '''
                     npm install -g serve
-                    serve -s build -l 5040
+                    start /B serve -s build -l 5040
                     '''
                 }
             }
