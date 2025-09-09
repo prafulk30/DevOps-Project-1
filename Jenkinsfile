@@ -2,13 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // __define-ocg__: Project-specific settings
-        PROJECT_NAME = "DevOps-Project-1"
-        PORT = "5040"
-    }
-
-    tools {
-        git 'Default'
+        PORT = 5040
     }
 
     stages {
@@ -35,15 +29,14 @@ pipeline {
         }
 
         stage('Run App') {
-             steps {
-                   dir('frontend') {
-                   bat '''
-                   npm install -g serve
-                   serve -s build -l 5040
-                  '''
+            steps {
+                dir('frontend') {
+                    bat '''
+                    npm install -g serve
+                    serve -s build -l 5040
+                    '''
+                }
+            }
         }
-    }
-}
-
     }
 }
