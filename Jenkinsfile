@@ -1,14 +1,14 @@
 pipeline {
     agent any
 
-    tools {
-        git 'Default'   // ⬅️ must match the Git installation name in Jenkins Global Tool Config
-    }
-
     environment {
         // __define-ocg__: Project-specific settings
         PROJECT_NAME = "DevOps-Project-1"
         PORT = "5040"
+    }
+
+    tools {
+        git 'Default'
     }
 
     stages {
@@ -18,16 +18,10 @@ pipeline {
             }
         }
 
-        stage('Verify Git') {
-            steps {
-                sh 'git --version'   // confirm Jenkins can use Git properly
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 dir('frontend') {
-                    sh 'npm install'
+                    bat 'npm install'
                 }
             }
         }
@@ -35,7 +29,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'npm run build'
+                    bat 'npm run build'
                 }
             }
         }
@@ -43,7 +37,7 @@ pipeline {
         stage('Run App') {
             steps {
                 dir('frontend') {
-                    sh "nohup npm start -- --port=${PORT} &"
+                    bat "start /B npm start -- --port=%PORT%"
                 }
             }
         }
