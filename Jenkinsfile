@@ -39,10 +39,10 @@ pipeline {
         stage('Run App') {
             steps {
                 dir('frontend') {
-                    bat '''
-                    npm install -g serve
-                    start /B serve -s build -l 5040
-                    '''
+                    // Use start /B to run in background
+                    bat 'start /B npm start -- --port=5040'
                 }
             }
         }
+    } // end stages
+} // end pipeline
