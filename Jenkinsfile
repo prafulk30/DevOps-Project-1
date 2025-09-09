@@ -1,22 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        NODEJS_HOME = "C:\\Program Files\\nodejs" // Make sure this points to your Node.js installation
+        PATH = "${env.NODEJS_HOME};${env.PATH}"
+    }
+
     stages {
         stage('Checkout SCM') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Clone Repo') {
-            steps {
-                git url: 'https://github.com/prafulk30/DevOps-Project-1.git', branch: 'main'
-            }
-        }
-
-        stage('Verify Git') {
-            steps {
-                bat 'git --version'
+                git branch: 'main', url: 'https://github.com/prafulk30/DevOps-Project-1.git'
             }
         }
 
@@ -36,13 +29,24 @@ pipeline {
             }
         }
 
-        stage('Run App') {
+        stage('Serve Frontend') {
             steps {
                 dir('frontend') {
-                    // Use start /B to run in background
-                    bat 'start /B npm start -- --port=5040'
+                    // Install serve globally if not installed
+                    bat 'npm install -g serve'
+                    // Serve the build folder on port 5040
+                    bat 'start /B serve -s build -l 5040'
                 }
             }
         }
-    } // end stages
-} // end pipeline
+    }
+
+    post {
+        success {
+            echo 'Pipeline finished successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
