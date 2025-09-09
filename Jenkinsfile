@@ -8,12 +8,6 @@ pipeline {
             }
         }
 
-        stage('Declarative: Tool Install') {
-            steps {
-                // Add any tool installations here if needed
-            }
-        }
-
         stage('Clone Repo') {
             steps {
                 git url: 'https://github.com/prafulk30/DevOps-Project-1.git', branch: 'main'
@@ -52,5 +46,3 @@ pipeline {
                 }
             }
         }
-    }
-}
