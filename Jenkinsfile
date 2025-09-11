@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        NODEJS_HOME = "C:\\Program Files\\nodejs" // Make sure this points to your Node.js installation
-        PATH = "${env.NODEJS_HOME};${env.PATH}"
-    }
-
     stages {
         stage('Checkout SCM') {
             steps {
@@ -32,21 +27,12 @@ pipeline {
         stage('Serve Frontend') {
             steps {
                 dir('frontend') {
-                    // Install serve globally if not installed
-                    bat 'npm install -g serve'
-                    // Serve the build folder on port 5040
-                    bat 'start /B serve -s build -l 5040'
+                    bat '''
+                    npm install -g serve
+                    start cmd /c "serve -s build -l 5040"
+                    '''
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline finished successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
         }
     }
 }
