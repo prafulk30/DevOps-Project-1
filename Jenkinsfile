@@ -29,7 +29,7 @@ pipeline {
                 dir('frontend') {
                     bat '''
                     npm install -g serve
-                    start cmd /c "serve -s build -l 5040"
+                    start cmd /c "serve -s build -l 5110"
                     '''
                 }
             }
